@@ -4,49 +4,52 @@
 
 using namespace std;
 
-string inp;
+string str;
 
-//모음인 경우
-bool isVow(char str) {
-    return str == 'a' || str == 'e' || str == 'i' || str == 'o' || str == 'u';
+bool isV(char alp) {
+    return alp == 'a' || alp == 'e' || alp == 'i' || alp == 'o' || alp == 'u';
 }
-
 
 int main() {
 
-    while (cin >> inp) {
-        if (inp == "end") {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    while (cin >> str) {
+        if (str == "end") {
             break;
         }
-        bool include_v = false;
-        int gcnt = 0;
-        int mcnt = 0;
-        char prev = '0';
+        bool inc_v = false;
         bool flag = false;
-        for (int i = 0; i < inp.size(); i++) {
-            if (isVow(inp[i])) {
+        int zcnt = 0;
+        int mcnt = 0;
+        char prev ='0';
+
+        for (int i = 0; i < str.size(); i++) {
+            if (isV(str[i])) {
+                inc_v = true;
                 mcnt++;
-                gcnt = 0;
-                include_v = true;
+                zcnt = 0;
             }
             else {
-                gcnt++;
                 mcnt = 0;
+                zcnt++;
             }
-            if (gcnt == 3 || mcnt == 3) {
+            if (mcnt == 3 || zcnt == 3) {
                 flag = true;
             }
-            //두글자 이상 , 이전의 값과 같을 때, e나 o가 아닐때
-            if (i >= 1 && prev == inp[i] && (inp[i] != 'e' && inp[i] != 'o')) {
-                flag = true;
+            
+            if (i >= 1 && prev == str[i] && (str[i] != 'o' && str[i] != 'e')) {
+                flag=true;
             }
-            prev = inp[i];
+            
+            prev = str[i];
         }
 
-        if (include_v == 0) flag = 1;
-        if (flag) cout << "<" << inp << ">" << " is not acceptable.\n";
-        else cout << "<" << inp << ">" << " is acceptable.\n";
-        
+        if (!inc_v)flag = true;
+        if(flag)cout << "<" << str << ">" << " is not acceptable.\n";
+        else cout << "<" << str << ">" << " is acceptable.\n";
     }
 
     return 0;
