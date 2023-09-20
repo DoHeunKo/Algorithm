@@ -1,63 +1,43 @@
-//2828
-//custom operator 정리
-// 1순위 count 2순위 같을떄 먼저나온것
-// map의 특성완벽하게 알아야 풀수 있음
-//
-
 #include<iostream>
-#include<map>
 #include<vector>
+#include<map>
 #include<algorithm>
-using namespace std;
-int n, c;
-map<int, int> mp;
-map<int, int> mp2;
-int num;
-vector<pair<int, int>> v;
 
-int cmp(pair<int,int>a, pair<int,int>b) {
-    if (a.second == b.second) {
+using namespace std;
+int n, c, num;
+map<int, int> mp1;//<숫자,빈도>
+map<int, int> mp2;//<숫자,순서>
+
+bool cmp(const pair<int, int>& a, const pair<int, int>& b) {
+    if (mp1[a.first] == mp1[b.first]) {
         return mp2[a.first] < mp2[b.first];
     }
-    return a.second > b.second;
+    return mp1[a.first] > mp1[b.first];
 }
 
 int main() {
-
     cin >> n >> c;
     for (int i = 0; i < n; i++) {
         cin >> num;
-        mp[num]++;
+        mp1[num]++;
         if (mp2[num] == 0) {
             mp2[num] = i + 1;
         }
     }
-
-    for (auto ele : mp) {
+    
+    vector<pair<int, int>> v;
+    for (auto ele : mp1) {
         v.push_back({ ele.first,ele.second });
     }
-    
     sort(v.begin(), v.end(), cmp);
-
-    //v.first : 값 , v.second : cnt만큼 들어온순으로 정렬
-
-    
-
-    for (int i = 0; i < v.size(); i++) {
-        for (int j = 0; j < v[i].second; j++) {
-            cout << v[i].first << ' ';
+    vector<int> result;
+    for (auto ele : v) {
+        for (int i = 0; i < ele.second; i++) {
+            result.push_back(ele.first);
         }
     }
-
-
-    /*for (auto ele : mp) {
-        cout << ele.first << ' ' << ele.second << '\n';
+    for (auto ele : result) {
+        cout << ele << ' ';
     }
-    cout << "\n";   
-
-    for (auto ele : mp2) {
-        cout << ele.first << ' ' << ele.second << '\n';
-    }*/
-
     return 0;
 }
